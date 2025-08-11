@@ -28,6 +28,3 @@ task clean(type: Delete) {
 tasks.withType(JavaCompile).configureEach {
     options.compilerArgs << "-Xlint:-options"
 }
-
-// Disable Configuration Cache which may cause issues
-org.gradle.configuration-cache=false
