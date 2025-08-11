@@ -21,15 +21,20 @@ jobs:
     - name: Setup Android SDK
       uses: android-actions/setup-android@v3
 
-    - name: Remove existing gradle wrapper jar if exists
+    - name: Create gradle wrapper for Gradle 9.0.0
       run: |
-        if [ -f "gradle/wrapper/gradle-wrapper.jar" ]; then
-          rm gradle/wrapper/gradle-wrapper.jar
-        fi
+        mkdir -p gradle/wrapper
+        echo "distributionBase=GRADLE_USER_HOME" > gradle/wrapper/gradle-wrapper.properties
+        echo "distributionPath=wrapper/dists" >> gradle/wrapper/gradle-wrapper.properties
+        echo "distributionUrl=https\\://services.gradle.org/distributions/gradle-9.0.0-bin.zip" >> gradle/wrapper/gradle-wrapper.properties
+        echo "zipStoreBase=GRADLE_USER_HOME" >> gradle/wrapper/gradle-wrapper.properties
+        echo "zipStorePath=wrapper/dists" >> gradle/wrapper/gradle-wrapper.properties
 
-    - name: Generate Gradle Wrapper
+    - name: Download and extract gradle wrapper jar
       run: |
-        gradle wrapper --gradle-version 8.5
+        wget -O gradle-9.0.0-bin.zip https://services.gradle.org/distributions/gradle-9.0.0-bin.zip
+        unzip -j gradle-9.0.0-bin.zip gradle-9.0.0/lib/gradle-wrapper-9.0.0.jar
+        mv gradle-wrapper-9.0.0.jar gradle/wrapper/gradle-wrapper.jar
 
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
