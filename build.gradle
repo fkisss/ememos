@@ -23,3 +23,11 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+// Add this to handle compatibility with Gradle 9.0.0
+tasks.withType(JavaCompile).configureEach {
+    options.compilerArgs << "-Xlint:-options"
+}
+
+// Disable Configuration Cache which may cause issues
+org.gradle.configuration-cache=false
