@@ -44,6 +44,11 @@ android {
             excludes += '/META-INF/{AL2.0,LGPL2.1}'
         }
     }
+    
+    // Add Gradle 9.0.0 compatibility configuration
+    buildTypes.all {
+        it.buildConfigField "boolean", "ENABLE_CONFIGURATION_CACHE", "false"
+    }
 }
 
 dependencies {
